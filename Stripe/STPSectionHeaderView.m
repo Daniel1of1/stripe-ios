@@ -93,6 +93,7 @@
         NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
         style.firstLineHeadIndent = 15;
         style.headIndent = style.firstLineHeadIndent;
+        style.lineSpacing = 2;
         NSDictionary *attributes = @{NSParagraphStyleAttributeName: style};
         self.label.attributedText = [[NSAttributedString alloc] initWithString:title
                                                                     attributes:attributes];

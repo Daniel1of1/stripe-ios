@@ -67,7 +67,7 @@
 - (void)updateAppearance {
     self.contentView.backgroundColor = self.theme.secondaryBackgroundColor;
     self.backgroundColor = [UIColor clearColor];
-    self.titleLabel.font = self.theme.font;
+    self.titleLabel.font = self.theme.emphasisFont;
     self.titleLabel.textColor = [self colorForSelectedState:self.selected];
     self.leftIcon.tintColor = [self colorForSelectedState:self.selected];
     self.checkmarkIcon.tintColor = self.theme.accentColor;

@@ -418,12 +418,12 @@
 - (void)shippingAddressViewController:(STPShippingAddressViewController *)addressViewController
                  didFinishWithAddress:(STPAddress *)address
                        shippingMethod:(PKShippingMethod *)method {
+    self.state = STPPaymentContextStateNone;
     self.shippingAddress = address;
     self.selectedShippingMethod = method;
     [self.delegate paymentContextDidChange:self];
     [self appropriatelyDismissViewController:addressViewController completion:^{
         if (self.state == STPPaymentContextStateRequestingPayment) {
-            self.state = STPPaymentContextStateNone;
             [self requestPayment];
         }
     }];

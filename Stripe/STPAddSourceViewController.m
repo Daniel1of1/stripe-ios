@@ -92,7 +92,7 @@ typedef NS_ENUM(NSUInteger, STPAddSourceSection) {
         self.title = STPLocalizedString(@"Add a Card", @"Title for Add a Card view");
         addressViewModel = [[STPAddressViewModel alloc] initWithRequiredBillingFields:configuration.requiredBillingAddressFields];
     } else if (self.sourceType == STPSourceTypeSEPADebit) {
-        self.title = STPLocalizedString(@"Add a SEPA Debit Account", @"Title for SEPA Debit Account form");
+        self.title = STPLocalizedString(@"Add a Direct Debit Account", @"Title for SEPA Debit Account form");
         addressViewModel = [[STPAddressViewModel alloc] initWithSEPADebitFields];
     }
     addressViewModel.delegate = self;
