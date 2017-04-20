@@ -64,8 +64,9 @@
     return displayName ?: @"";
 }
 
-- (UIImage *)selectorImageForRow:(__unused NSInteger)row {
-    return [STPImageLibrary addIcon]; // TODO
+- (UIImage *)selectorImageForRow:(NSInteger)row {
+    NSString *countryCode = [self.countryCodes stp_boundSafeObjectAtIndex:row];
+    return [STPImageLibrary countryIconWithCountryCode:countryCode];
 }
 
 @end

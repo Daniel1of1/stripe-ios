@@ -123,6 +123,11 @@
     return [self safeImageNamed:@"stp_icon_sofort" templateIfAvailable:YES];
 }
 
++ (UIImage *)countryIconWithCountryCode:(NSString *)countryCode {
+    NSString *name = [NSString stringWithFormat:@"stp_icon_country_%@", countryCode ?: @""];
+    return [self safeImageNamed:name];
+}
+
 + (UIImage *)safeImageNamed:(NSString *)imageName
         templateIfAvailable:(BOOL)templateIfAvailable {
     FAUXPAS_IGNORED_IN_METHOD(APIAvailability);
