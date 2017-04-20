@@ -150,7 +150,7 @@ typedef NS_ENUM(NSUInteger, STPSourceInfoSection) {
     self.stp_navigationItemProxy.rightBarButtonItem.enabled = NO;
 
     STPSectionHeaderView *firstSectionHeader = [STPSectionHeaderView new];
-    firstSectionHeader.title = STPLocalizedString(@"Bank Account Information", @"Title for bank account information form");
+    firstSectionHeader.title = STPLocalizedString(@"BANK ACCOUNT INFORMATION", @"Title for bank account information form");
     firstSectionHeader.buttonHidden = YES;
     self.firstSectionHeaderView = firstSectionHeader;
 

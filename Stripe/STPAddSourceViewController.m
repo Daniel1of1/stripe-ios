@@ -151,21 +151,22 @@ typedef NS_ENUM(NSUInteger, STPAddSourceSection) {
     UIImage *image;
     if (self.sourceType == STPSourceTypeCard) {
         self.addressViewModel.previousField = cardCell;
-        self.firstSectionHeaderView.title = STPLocalizedString(@"Card", @"Title for card number entry field");
+        self.firstSectionHeaderView.title = STPLocalizedString(@"CARD", @"Title for card number entry field");
         image = [STPImageLibrary largeCardFrontImage];
     } else if (self.sourceType == STPSourceTypeSEPADebit) {
         self.addressViewModel.previousField = ibanCell;
-        self.firstSectionHeaderView.title = STPLocalizedString(@"Bank Account Information", @"Title for IBAN entry field");
-        image = [STPImageLibrary largeShippingImage]; // TODO: replace placeholder image
+        self.firstSectionHeaderView.title = STPLocalizedString(@"BANK ACCOUNT INFORMATION", @"Title for IBAN entry field");
     }
     [self.firstSectionHeaderView setNeedsLayout];
     [self.addressHeaderView setNeedsLayout];
 
-    UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
-    imageView.contentMode = UIViewContentModeCenter;
-    imageView.frame = CGRectMake(0, 0, self.view.bounds.size.width, imageView.bounds.size.height + (57 * 2));
-    self.imageView = imageView;
-    self.tableView.tableHeaderView = imageView;
+    if (image) {
+        UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
+        imageView.contentMode = UIViewContentModeCenter;
+        imageView.frame = CGRectMake(0, 0, self.view.bounds.size.width, imageView.bounds.size.height + (57 * 2));
+        self.imageView = imageView;
+        self.tableView.tableHeaderView = imageView;
+    }
 
     self.tableView.dataSource = self;
     self.tableView.delegate = self;

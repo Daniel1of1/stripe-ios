@@ -34,7 +34,7 @@
 }
 
 - (NSString *)selectorTitle {
-    return STPLocalizedString(@"Country", @"Title for country picker section");
+    return STPLocalizedString(@"COUNTRY", @"Title for country picker section");
 }
 
 - (NSInteger)numberOfRowsInSelector {

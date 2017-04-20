@@ -48,7 +48,7 @@
 }
 
 - (NSString *)selectorTitle {
-    return STPLocalizedString(@"Bank", @"Title for bank picker section");
+    return STPLocalizedString(@"BANK", @"Title for bank picker section");
 }
 
 - (NSInteger)numberOfRowsInSelector {

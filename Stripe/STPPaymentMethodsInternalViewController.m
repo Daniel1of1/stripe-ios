@@ -76,7 +76,7 @@ static NSInteger STPPaymentMethodNewPaymentsSection = 1;
 
     STPSectionHeaderView *headerView = [STPSectionHeaderView new];
     headerView.buttonHidden = YES;
-    headerView.title = STPLocalizedString(@"MORE OPTIONS", @"Title for payment options section. Use all caps if available in language");
+    headerView.title = STPLocalizedString(@"MORE OPTIONS", @"Title for payment options section");
     self.moreSectionHeaderView = headerView;
     [self.moreSectionHeaderView setNeedsLayout];
 }
@@ -185,18 +185,20 @@ static NSInteger STPPaymentMethodNewPaymentsSection = 1;
 }
 
 - (CGFloat)tableView:(__unused UITableView *)tableView heightForHeaderInSection:(__unused NSInteger)section {
+    BOOL showingSavedSection = [self tableView:tableView numberOfRowsInSection:STPPaymentMethodSavedPaymentsSection] > 0;
     CGSize fittingSize = CGSizeMake(self.view.bounds.size.width, CGFLOAT_MAX);
     NSInteger numberOfRows = [self tableView:tableView numberOfRowsInSection:section];
-    if (section == STPPaymentMethodNewPaymentsSection && numberOfRows != 0) {
+    if (section == STPPaymentMethodNewPaymentsSection && numberOfRows != 0 && showingSavedSection) {
         return [self.moreSectionHeaderView sizeThatFits:fittingSize].height;
     }
     return 0.01f;
 }
 
 - (UIView *)tableView:(__unused UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    BOOL showingSavedSection = [self tableView:tableView numberOfRowsInSection:STPPaymentMethodSavedPaymentsSection] > 0;
     if ([self tableView:tableView numberOfRowsInSection:section] == 0) {
         return [UIView new];
-    } else if (section == STPPaymentMethodNewPaymentsSection) {
+    } else if (section == STPPaymentMethodNewPaymentsSection && showingSavedSection) {
         return self.moreSectionHeaderView;
     }
     return nil;
