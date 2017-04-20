@@ -128,7 +128,10 @@ typedef NS_ENUM(NSUInteger, STPAddSourceSection) {
 
     STPInfoFooterView *footerView = [[STPInfoFooterView alloc] init];
     NSString *template = STPLocalizedString(@"By providing your IBAN and confirming this payment, you are authorizing %@ and Stripe, our payment service provider, to send instructions to your bank to debit your account and your bank to debit your account in accordance with those instructions. You are entitled to a refund from your bank under the terms and conditions of your agreement with your bank. A refund must be claimed within 8 weeks starting from the date on which your account was debited.", @"SEPA legal authorization text – must use official translations");
-    footerView.textView.text = [NSString stringWithFormat:template, self.configuration.companyName];
+    NSString *footerText = [NSString stringWithFormat:template, self.configuration.companyName];
+    NSMutableParagraphStyle *paragraphStyle = [NSMutableParagraphStyle new];
+    paragraphStyle.lineSpacing = 3;
+    footerView.textView.attributedText = [[NSAttributedString alloc] initWithString:footerText attributes:@{NSParagraphStyleAttributeName: paragraphStyle}];
     self.sepaFooterView = footerView;
 
     UIToolbar *inputAccessoryToolbar = [UIToolbar stp_inputAccessoryToolbarWithTarget:self action:@selector(firstSectionNextTapped)];
