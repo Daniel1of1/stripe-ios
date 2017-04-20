@@ -169,10 +169,11 @@ typedef NS_ENUM(NSInteger, STPMetricField) {
 }
 
 - (void)sendTelemetryData {
-//    if (![[self class] shouldSendTelemetry]) {
-//        return;
-//    }
-    NSURL *url = [NSURL URLWithString:@"https://m.stripe.com"];
+    if (![[self class] shouldSendTelemetry]) {
+        return;
+    }
+    NSString *path = @"ios-sdk-1";
+    NSURL *url = [[NSURL URLWithString:@"https://m.stripe.com"] URLByAppendingPathComponent:path];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     request.HTTPMethod = @"POST";
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
