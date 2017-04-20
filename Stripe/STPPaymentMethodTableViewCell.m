@@ -42,7 +42,7 @@
 }
 
 - (UIColor *)primaryColorForPaymentMethodWithSelectedState:(BOOL)isSelected {
-    return isSelected ? self.theme.accentColor : [self.theme.primaryForegroundColor colorWithAlphaComponent:0.6f];
+    return isSelected ? self.theme.accentColor : self.theme.primaryForegroundColor;
 }
 
 - (NSAttributedString *)buildAttributedStringForPaymentMethod:(id<STPPaymentMethod>)paymentMethod

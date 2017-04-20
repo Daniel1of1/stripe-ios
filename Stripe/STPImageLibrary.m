@@ -99,6 +99,30 @@
     return [self safeImageNamed:@"stp_shipping_form" templateIfAvailable:YES];
 }
 
++ (UIImage *)bancontactIcon {
+    return [self safeImageNamed:@"stp_icon_bancontact" templateIfAvailable:YES];
+}
+
++ (UIImage *)cardIcon {
+    return [self safeImageNamed:@"stp_icon_card" templateIfAvailable:YES];
+}
+
++ (UIImage *)giropayIcon {
+    return [self safeImageNamed:@"stp_icon_giropay" templateIfAvailable:YES];
+}
+
++ (UIImage *)idealIcon {
+    return [self safeImageNamed:@"stp_icon_ideal" templateIfAvailable:YES];
+}
+
++ (UIImage *)sepaIcon {
+    return [self safeImageNamed:@"stp_icon_sepa" templateIfAvailable:YES];
+}
+
++ (UIImage *)sofortIcon {
+    return [self safeImageNamed:@"stp_icon_sofort" templateIfAvailable:YES];
+}
+
 + (UIImage *)safeImageNamed:(NSString *)imageName
         templateIfAvailable:(BOOL)templateIfAvailable {
     FAUXPAS_IGNORED_IN_METHOD(APIAvailability);

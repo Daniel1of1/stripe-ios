@@ -82,7 +82,7 @@
 }
 
 - (UIImage *)selectorImageForRow:(__unused NSInteger)row {
-    return [STPImageLibrary addIcon];
+    return nil;
 }
 
 @end
