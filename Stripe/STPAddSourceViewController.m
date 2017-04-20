@@ -166,6 +166,8 @@ typedef NS_ENUM(NSUInteger, STPAddSourceSection) {
         imageView.frame = CGRectMake(0, 0, self.view.bounds.size.width, imageView.bounds.size.height + (57 * 2));
         self.imageView = imageView;
         self.tableView.tableHeaderView = imageView;
+    } else {
+        self.tableView.tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1, 16)];
     }
 
     self.tableView.dataSource = self;
