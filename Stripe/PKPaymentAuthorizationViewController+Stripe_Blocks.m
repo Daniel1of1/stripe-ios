@@ -33,8 +33,27 @@ typedef void (^STPPaymentAuthorizationStatusCallback)(PKPaymentAuthorizationStat
 
 @implementation STPBlockBasedApplePayDelegate
 
+
+-(PKPaymentAuthorizationResult * _Nonnull)resultFromStatus:(PKPaymentAuthorizationStatus)status {
+    //TODO: can improve errors from PKPaymentAuthorizationStatus
+    return [[PKPaymentAuthorizationResult alloc] initWithStatus:status errors:nil];
+}
+
+// required iOS 11 API - call through to old method to maintain similar functionality
 - (void)paymentAuthorizationViewController:(__unused PKPaymentAuthorizationViewController *)controller
-                       didAuthorizePayment:(PKPayment *)payment completion:(STPPaymentAuthorizationStatusCallback)completion {
+                       didAuthorizePayment:(__unused PKPayment *)payment
+                                   handler:(__unused void (^)(PKPaymentAuthorizationResult * _Nonnull))completion {
+
+    [self paymentAuthorizationViewController:controller
+                         didAuthorizePayment:payment
+                                  completion:^(PKPaymentAuthorizationStatus status) {
+                                      completion([self resultFromStatus:status]);
+                                  }];
+}
+
+- (void)paymentAuthorizationViewController:(__unused PKPaymentAuthorizationViewController *)controller
+                       didAuthorizePayment:(PKPayment *)payment
+                                completion:(STPPaymentAuthorizationStatusCallback)completion {
     self.onPaymentAuthorization(payment);
     [self.apiClient createTokenWithPayment:payment completion:^(STPToken * _Nullable token, NSError * _Nullable error) {
         if (error) {
@@ -51,6 +70,42 @@ typedef void (^STPPaymentAuthorizationStatusCallback)(PKPaymentAuthorizationStat
             self.didSucceed = YES;
             completion(PKPaymentAuthorizationStatusSuccess);
         });
+    }];
+}
+
+// iOS 11 API - 
+-(void)paymentAuthorizationViewController:(__unused PKPaymentAuthorizationViewController *)controller
+                 didSelectShippingContact:(PKContact *)contact
+                                  handler:(void (^)(PKPaymentRequestShippingContactUpdate * _Nonnull))completion {
+
+    STPAddress *stpAddress = [[STPAddress alloc] init];
+    stpAddress.name = [contact.name.givenName stringByAppendingString:contact.name.familyName];
+    stpAddress.email = contact.emailAddress;
+    stpAddress.line1 = contact.postalAddress.street;
+    stpAddress.city = contact.postalAddress.city;
+    stpAddress.state = contact.postalAddress.state;
+    stpAddress.postalCode = contact.postalAddress.postalCode;
+    stpAddress.country = contact.postalAddress.country;
+    stpAddress.phone = contact.phoneNumber.stringValue;
+
+    self.onShippingAddressSelection(stpAddress, ^(STPShippingStatus status, NSArray<PKShippingMethod *>* shippingMethods, NSArray<PKPaymentSummaryItem*> *summaryItems) {
+        PKPaymentRequestShippingContactUpdate * contactUpdate = [[PKPaymentRequestShippingContactUpdate alloc] initWithErrors:nil paymentSummaryItems:summaryItems shippingMethods:shippingMethods];
+        if (status == STPShippingStatusInvalid) {
+            contactUpdate.status = PKPaymentAuthorizationStatusInvalidShippingPostalAddress;
+            completion(contactUpdate);
+        }
+        else {
+            contactUpdate.status = PKPaymentAuthorizationStatusSuccess;
+            completion(contactUpdate);
+        }
+    });
+}
+
+-(void)paymentAuthorizationViewController:(PKPaymentAuthorizationViewController *)controller didSelectShippingMethod:(PKShippingMethod *)shippingMethod handler:(void (^)(PKPaymentRequestShippingMethodUpdate * _Nonnull))completion {
+    [self paymentAuthorizationViewController:controller didSelectShippingMethod:shippingMethod completion:^(PKPaymentAuthorizationStatus status, NSArray<PKPaymentSummaryItem *> * _Nonnull summaryItems) {
+        PKPaymentRequestShippingMethodUpdate *shippingMethodUpdate = [[PKPaymentRequestShippingMethodUpdate alloc] initWithPaymentSummaryItems:summaryItems];
+        shippingMethodUpdate.status = status;
+        completion(shippingMethodUpdate);
     }];
 }
 
@@ -104,6 +159,7 @@ typedef void (^STPPaymentAuthorizationStatusCallback)(PKPaymentAuthorizationStat
         self.onFinish(STPPaymentStatusUserCancellation, nil);
     }
 }
+
 
 @end
 
